@@ -1,16 +1,14 @@
-const express = require('express');
-const router = express.Router();
+const express  = require('express');
+const router   = express.Router();
 const mongoose = require('mongoose');
-const Article = mongoose.model('Article');
+const Article  = mongoose.model('Article');
 
 
-module.exports = (app) => {
-  app.use('/', router);
-};
+module.exports = (app) => app.use('/', router);
 
 
 router.get('/', (req, res, next) => {
-  Article.find(function (err, articles) {
+  Article.find((err, articles) => {
     if (err) return next(err);
     res.render('index', {
       title: 'Generator-Express MVC',
@@ -20,8 +18,6 @@ router.get('/', (req, res, next) => {
 });
 
 
-router.get('/upload', (req, res) => {
-  res.render('upload', {
+router.get('/upload', (req, res) => res.render('upload', {
     title: 'Upload'
-  });
-});
+}));

@@ -39,7 +39,5 @@ require('./config/express')(app, config);
 /**
  * Run server
  */
-app.listen(config.port, () => {
-  console.log('Express server listening on port ' + config.port);
-});
+app.listen(config.port, () => console.log('Express server listening on port ' + config.port));
 

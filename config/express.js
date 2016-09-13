@@ -17,7 +17,7 @@ module.exports = (app, config) => {
   /**
    * Envoriments
    * @type {string}
-     */
+   */
   var env = process.env.NODE_ENV || 'development';
   app.locals.ENV = env;
   app.locals.ENV_DEVELOPMENT = env == 'development';
@@ -58,9 +58,7 @@ module.exports = (app, config) => {
    * Join controllers
    */
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
-  controllers.forEach((controller) => {
-    require(controller)(app);
-  });
+  controllers.forEach((controller) => require(controller)(app));
 
 
   /**
