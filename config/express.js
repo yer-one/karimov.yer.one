@@ -1,21 +1,47 @@
-var express = require('express');
-var glob = require('glob');
+const express        = require('express');
+const glob           = require('glob');
+const favicon        = require('serve-favicon');
+const logger         = require('morgan');
+const cookieParser   = require('cookie-parser');
+const bodyParser     = require('body-parser');
+const compress       = require('compression');
+const methodOverride = require('method-override');
+const passport       = require('passport');
+const flash          = require('connect-flash');
+const morgan         = require('morgan');
+const session        = require('express-session');
 
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var compress = require('compression');
-var methodOverride = require('method-override');
 
-module.exports = function(app, config) {
+module.exports = (app, config) => {
+
+  /**
+   * Envoriments
+   * @type {string}
+     */
   var env = process.env.NODE_ENV || 'development';
   app.locals.ENV = env;
   app.locals.ENV_DEVELOPMENT = env == 'development';
-  
+
+
+  /**
+   * Views
+   */
   app.set('views', config.root + '/app/views');
   app.set('view engine', 'ejs');
 
+
+  /**
+   * required for passport
+   */
+  app.use(session({ secret: 'someGenerateKey' })); // session secret
+  app.use(passport.initialize());
+  app.use(passport.session()); // persistent login sessions
+  app.use(flash()); // use connect-flash for flash messages stored in session
+
+
+  /**
+   * Middlewares
+   */
   // app.use(favicon(config.root + '/public/img/favicon.ico'));
   app.use(logger('dev'));
   app.use(bodyParser.json());
@@ -27,19 +53,27 @@ module.exports = function(app, config) {
   app.use(express.static(config.root + '/public'));
   app.use(methodOverride());
 
+
+  /**
+   * Join controllers
+   */
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
-  controllers.forEach(function (controller) {
+  controllers.forEach((controller) => {
     require(controller)(app);
   });
 
-  app.use(function (req, res, next) {
+
+  /**
+   * Handling 404 errors
+   */
+  app.use((req, res, next) => {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
   });
-  
+
   if(app.get('env') === 'development'){
-    app.use(function (err, req, res, next) {
+    app.use((err, req, res, next) => {
       res.status(err.status || 500);
       res.render('error', {
         message: err.message,
@@ -49,7 +83,11 @@ module.exports = function(app, config) {
     });
   }
 
-  app.use(function (err, req, res, next) {
+
+  /**
+   * Handling 500 errors
+   */
+  app.use((err, req, res, next) => {
     res.status(err.status || 500);
       res.render('error', {
         message: err.message,

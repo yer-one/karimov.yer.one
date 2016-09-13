@@ -1,13 +1,15 @@
-var express = require('express'),
-  router = express.Router(),
-  mongoose = require('mongoose'),
-  Article = mongoose.model('Article');
+const express = require('express');
+const router = express.Router();
+const mongoose = require('mongoose');
+const Article = mongoose.model('Article');
 
-module.exports = function (app) {
+
+module.exports = (app) => {
   app.use('/', router);
 };
 
-router.get('/', function (req, res, next) {
+
+router.get('/', (req, res, next) => {
   Article.find(function (err, articles) {
     if (err) return next(err);
     res.render('index', {
@@ -17,4 +19,9 @@ router.get('/', function (req, res, next) {
   });
 });
 
-router.get('/');
+
+router.get('/upload', (req, res) => {
+  res.render('upload', {
+    title: 'Upload'
+  });
+});
