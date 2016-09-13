@@ -1,9 +1,9 @@
 /**
  * Importing packages
  */
-const express = require('express');
-const config = require('./config/config');
-const glob = require('glob');
+const express  = require('express');
+const config   = require('./config/config');
+const glob     = require('glob');
 const mongoose = require('mongoose');
 
 
