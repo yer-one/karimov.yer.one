@@ -1,8 +1,15 @@
 <% include header %>
+
   <h1><%- title %></h1>
-  <form action="/video/upload" class="dropzone">
-    <div class="fallback">
-      <input name="file" type="file" multiple />
-    </div>
-  </form>
+  <div id="UploadBox">
+    <h2>Video Uploader</h2>
+    <form action="/video/upload" class="dropzone" method="post">
+
+    </form>
+
+    <button  id='UploadButton' class='Button' onclick="save()">Upload</button>
+  </div>
+
+  <div id="message"></div>
+
 <% include footer %>

@@ -1,15 +1,16 @@
-const express        = require('express');
-const glob           = require('glob');
-const favicon        = require('serve-favicon');
-const logger         = require('morgan');
-const cookieParser   = require('cookie-parser');
-const bodyParser     = require('body-parser');
-const compress       = require('compression');
+const express = require('express');
+const glob = require('glob');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const compress = require('compression');
 const methodOverride = require('method-override');
-const passport       = require('passport');
-const flash          = require('connect-flash');
-const morgan         = require('morgan');
-const session        = require('express-session');
+const passport = require('passport');
+const flash = require('connect-flash');
+const morgan = require('morgan');
+const session = require('express-session');
+const fileUpload = require('express-fileupload');
 
 
 module.exports = (app, config) => {
@@ -33,7 +34,9 @@ module.exports = (app, config) => {
   /**
    * required for passport
    */
-  app.use(session({ secret: 'someGenerateKey' })); // session secret
+  app.use(session({
+    secret: 'someGenerateKey'
+  })); // session secret
   app.use(passport.initialize());
   app.use(passport.session()); // persistent login sessions
   app.use(flash()); // use connect-flash for flash messages stored in session
@@ -46,15 +49,13 @@ module.exports = (app, config) => {
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({
-    keepExtensions: true,
-    uploadDir: __dirname + '/tmp',
-    limit: '2mb'
+    extended: true
   }));
   app.use(cookieParser());
   app.use(compress());
   app.use(express.static(config.root + '/public'));
   app.use(methodOverride());
-
+  app.use(fileUpload());
 
   /**
    * Join controllers
@@ -72,7 +73,7 @@ module.exports = (app, config) => {
     next(err);
   });
 
-  if(app.get('env') === 'development'){
+  if (app.get('env') === 'development') {
     app.use((err, req, res, next) => {
       res.status(err.status || 500);
       res.render('error', {
@@ -89,11 +90,11 @@ module.exports = (app, config) => {
    */
   app.use((err, req, res, next) => {
     res.status(err.status || 500);
-      res.render('error', {
-        message: err.message,
-        error: {},
-        title: 'error'
-      });
+    res.render('error', {
+      message: err.message,
+      error: {},
+      title: 'error'
+    });
   });
 
 };

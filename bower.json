@@ -18,6 +18,7 @@
   "main": "",
   "license": "MIT",
   "dependencies": {
-    "dropzone": "^4.3.0"
+    "dropzone": "^4.3.0",
+    "choyjs": "*"
   }
 }
