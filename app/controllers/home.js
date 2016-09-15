@@ -4,24 +4,12 @@ const mongoose = require('mongoose');
 const Article = mongoose.model('Article');
 
 
-module.exports = (app) => {
-  app.use('/', router);
-};
+module.exports = (app) => app.use('/', router);
 
 
 router.get('/', (req, res, next) => {
-  Article.find(function (err, articles) {
-    if (err) return next(err);
-    res.render('index', {
-      title: 'Generator-Express MVC',
-      articles: articles
-    });
+  res.render('index', {
+    title: 'karimov.yer.one'
   });
 });
 
-
-router.get('/upload', (req, res) => {
-  res.render('upload', {
-    title: 'Upload'
-  });
-});
