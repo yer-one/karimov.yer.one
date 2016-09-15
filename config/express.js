@@ -17,7 +17,7 @@ module.exports = (app, config) => {
   /**
    * Envoriments
    * @type {string}
-     */
+   */
   var env = process.env.NODE_ENV || 'development';
   app.locals.ENV = env;
   app.locals.ENV_DEVELOPMENT = env == 'development';
@@ -46,7 +46,9 @@ module.exports = (app, config) => {
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({
-    extended: true
+    keepExtensions: true,
+    uploadDir: __dirname + '/tmp',
+    limit: '2mb'
   }));
   app.use(cookieParser());
   app.use(compress());
@@ -58,9 +60,7 @@ module.exports = (app, config) => {
    * Join controllers
    */
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
-  controllers.forEach((controller) => {
-    require(controller)(app);
-  });
+  controllers.forEach((controller) => require(controller)(app));
 
 
   /**

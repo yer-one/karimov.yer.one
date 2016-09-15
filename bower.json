@@ -4,6 +4,20 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "components"
-  ]
+    "components",
+    "bower_components",
+    "public/components",
+    "test",
+    "tests"
+  ],
+  "homepage": "https://github.com/yer-one/karimov.yer.one",
+  "authors": [
+    "Farrukh <webstyle@protonmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "dependencies": {
+    "dropzone": "^4.3.0"
+  }
 }
