@@ -46,7 +46,9 @@ module.exports = (app, config) => {
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({
-    extended: true
+    keepExtensions: true,
+    uploadDir: __dirname + '/tmp',
+    limit: '2mb'
   }));
   app.use(cookieParser());
   app.use(compress());
