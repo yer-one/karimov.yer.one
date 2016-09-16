@@ -13,9 +13,7 @@ module.exports = (app) => {
 
 
 router.get('/', (req, res, next) => {
-  res.render('upload', {
-    title: 'Video controller'
-  });
+  res.send("video controller")
 });
 
 
