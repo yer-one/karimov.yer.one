@@ -8,8 +8,6 @@ module.exports = (app) => app.use('/', router);
 
 
 router.get('/', (req, res, next) => {
-  res.render('index', {
-    title: 'karimov.yer.one'
-  });
+  res.send("Karimov.yer.one API");
 });
 
